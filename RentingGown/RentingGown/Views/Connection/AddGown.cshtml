@@ -1,0 +1,136 @@
+﻿@model RentingGown.Models.Gowns
+
+@{
+    ViewBag.Title = "AddGown";
+}
+
+
+<h2>הוסף שמלה</h2>
+<script>
+    function ChangeTypeToText()
+    {
+        document.getElementById("pass").type = 'text';
+    }
+    function ChangeTypeToPass()
+    {
+        document.getElementById("pass").type = 'password';
+    }
+    function NumberChanged() {
+        var q = document.getElementById("set").value;
+        if (q > 1)
+            document.getElementById("fileset").innerHTML = "<div class='form-group'> <label class='control-label col-md-2'>תמונת הסט</label> <div class='col-md-10'><input type='file' required accept='image/*'   id='fileset' name='fileset'/></div></div>";
+        else document.getElementById("fileset").innerHTML = "";
+        document.getElementById("files").innerHTML = "<div class='form-group'> <label class='control-label col-md-2'>תמונה" + 1 + "</label> <div class='col-md-10'><input type='file' accept='image/*' required  id='file" + 1 + "'name='file1'  onchange='CreateArr()'/></div></div>";
+        document.getElementById("sizes").innerHTML = "<div class='form-group'> <label class='control-label col-md-2'>מידה" + 1 + "</label> <div class='col-md-10'><input type='number'required  id='size" + 1 + "'  onchange='CreateArr()'/></div></div>";
+        for (var i = 1; i < q; i++) {
+            document.getElementById("files").innerHTML += "<div class='form-group'> <label class='control-label col-md-2'>תמונה" + (i + 1) + "</label> <div class='col-md-10'><input type='file' accept='image/*' required  id='file" + (i + 1) + "' name='file" + (i + 1) + "' onchange='CreateArr()'/></div></div>";
+            document.getElementById("sizes").innerHTML += "<div class='form-group'> <label class='control-label col-md-2'>מידה" + (i + 1) + "</label> <div class='col-md-10'><input type='number' required id='size" + (i + 1) + "' onchange='CreateArr()'/></div></div>";
+        }
+    }
+    function CreateArr() {
+        var num = document.getElementById("set").value;
+        document.getElementById("arrFiles").value = "";
+        document.getElementById("arrSizes").value = "";
+        for (var i = 1; i <= num; i++) {
+            var value = document.getElementById("file" + i).value;
+            document.getElementById("arrFiles").value += value + "?";
+            value = document.getElementById("size" + i).value;
+            document.getElementById("arrSizes").value += value + " ";
+        }
+    }
+</script>
+<form method="post" enctype="multipart/form-data">
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+        <div class="form-group">
+            <label class="control-label col-md-2">סיסמה</label>
+            <div class="col-md-10">
+                <input type="password" required maxlength="4" minlength="4" name="password" id="pass"/>
+                <img src="~/Images/eye.png" id="imgEye" style="    position: absolute !important;top: 33% !important;right: 13% !important;" onmouseover="ChangeTypeToText()" onmouseout="ChangeTypeToPass()"/>
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.id_catgory, "קטגוריה", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownList("id_catgory", null, htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.id_catgory, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.id_season, "עונה", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownList("id_season", null, htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.id_season, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-md-2">ארוך/קצר</label>
+            <div class="col-md-10">
+                <select name="is_long">
+                    <option>ארוך</option>
+                    <option>קצר</option>
+                </select>
+            </div>
+        </div>
+
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.price, "מחיר", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.price, new { htmlAttributes = new { @class = "form-control", @required = "required" } })
+                @Html.ValidationMessageFor(model => model.price, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+
+        <div class="form-group">
+            <label class="control-label col-md-2">בהיר/כהה</label>
+            <div class="col-md-10">
+                <select name="is_light">
+                    <option>בהיר</option>
+                    <option>כהה</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.color, "צבע", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownList("color", null, htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.color, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+
+
+        <div class="form-group">
+            <label class="control-label col-md-2">מספר שמלות</label>
+            <div class="col-md-10">
+                <input type="number" name="num_of_dress" id="set" min="1" value="1" onchange="NumberChanged()" />
+            </div>
+        </div>
+        <div id="fileset"></div>
+        <div id="files"><div class='form-group'> <label class='control-label col-md-2'>תמונה 1</label> <div class='col-md-10'><input type='file' id='file1' name="file1" accept="image/*" required onchange="CreateArr()" /></div></div></div>
+        <div id="sizes"><div class='form-group'> <label class='control-label col-md-2'>מידה 1</label> <div class='col-md-10'><input type='number' id='size1'name="size1"  required onchange="CreateArr()" /></div></div></div>
+
+        <input type="hidden" id="arrFiles" name="arrFiles" />
+        <input type="hidden" id="arrSizes" name="arrSizes" />
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="הוסף שמלה" class="btn btn-default" />
+            </div>
+        </div>
+        <h3 class="@ViewBag.classs">
+            @ViewBag.ErrorExistsPassword
+        </h3>
+    </div>
+</form>
+
+
