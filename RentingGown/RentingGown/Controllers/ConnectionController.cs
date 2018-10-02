@@ -10,6 +10,9 @@ using System.Net;
 using System.IO;
 using System.Web.Helpers;
 using System.Web.SessionState;
+using System.Web.Script.Serialization;
+using Newtonsoft.Json;
+
 
 namespace RentingGown.Controllers
 {
@@ -263,9 +266,10 @@ namespace RentingGown.Controllers
             int id_category = int.Parse(SerachDetails.id_category);
             int id_season = int.Parse(SerachDetails.id_season);
             List<Gowns> MainSearchResult = db.Gowns.Where(p => p.id_catgory ==id_category && p.id_season == id_season && p.price == price).ToList();
-
-            string sJSONResponse = Newtonsoft.Json.JsonConvert.SerializeObject(MainSearchResult);
-                return Json(sJSONResponse, JsonRequestBehavior.AllowGet);
+             
+            string json = JsonConvert.SerializeObject(MainSearchResult);
+            //string sJSONResponse = Newtonsoft.Json.JsonConvert.SerializeObject(MainSearchResult);
+            return Json(json, JsonRequestBehavior.AllowGet);
         }  
             
    

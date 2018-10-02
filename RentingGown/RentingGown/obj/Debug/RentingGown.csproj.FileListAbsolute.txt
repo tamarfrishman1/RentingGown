@@ -574,3 +574,7 @@ C:\Users\User\Documents\GitHub\RentingGown\RentingGown\RentingGown\obj\Debug\Ren
 C:\Users\User\Documents\GitHub\RentingGown\RentingGown\RentingGown\obj\Debug\RentingGown.csproj.CopyComplete
 C:\Users\User\Documents\GitHub\RentingGown\RentingGown\RentingGown\obj\Debug\RentingGown.dll
 C:\Users\User\Documents\GitHub\RentingGown\RentingGown\RentingGown\obj\Debug\RentingGown.pdb
+<<<<<<< HEAD
+C:\Users\User\Documents\GitHub\RentingGown\RentingGown\RentingGown\bin\Json.NET.Web.dll
+=======
+>>>>>>> 6038a2c586ddb1393e363a48478d1fe7cca154df
