@@ -264,7 +264,7 @@ namespace RentingGown.Controllers
             int price = int.Parse(SerachDetails.price);
             int id_category = int.Parse(SerachDetails.id_category);
             int id_season = int.Parse(SerachDetails.id_season);
-            List<Gowns> MainSearchResult = db.Gowns.Where(p => p.id_catgory ==id_category && p.id_season == id_season && p.price == price).ToList();
+            string MainSearchResult = db.Gowns.Where(p => p.id_catgory ==id_category && p.id_season == id_season && p.price == price).ToString();
 
 
 
