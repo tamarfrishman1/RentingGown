@@ -274,14 +274,11 @@
 
 <head>
     <script>
-
-
-
         function func() {
             var details = new Object();
             details.id_category = $('#id_catgory').val();
             details.id_season = $('#id_season').val();
-            details.price = $('#price').val(); 
+            details.price = $('#price').val();
             alert("clicked");
             $.ajax({
                 type: "POST",
@@ -293,30 +290,30 @@
                     alert("success");
                     if (response != null) {
                         $("#SearchContent").innerHtml = `<div class='col - md - 4 col - sm - 6 col - xs - 12'>
-                            <div class='listing-box' >
-                                <div class='listing-box-thumb'>
-                                    <span class='price-list'>${response.price}</span>
-                                    <img src='${response.picture}' alt='noneeee' />
-                                    <div class='listing-box-title'>
-                                        <h3><a href='#' title=''>Coffee Parade</a></h3>
-                                        <span>Los Angeles /  Sillicon Valley </span>
-                                        <span>size ${response.size}</span>
-                                    </div>
-                                </div>
-                                <div class='listing-rate-share'>
-                                    <div class='rated-list'>
-                                        <b class='la la-star'></b>
-                                        <b class='la la-star'></b>
-                                        <b class='la la-star'></b>
-                                        <b class='la la-star-o'></b>
-                                        <b class='la la-star-o'></b>
-                                        <span>(13)</span>
-                                    </div>
-                                    <span><i class='la la-share-alt'></i></span>
-                                    <a href='#' title=""><i class='la la-heart-o'></i></a>
-                                </div>
-                                        </div >
-                                    </div >`
+                                    <div class='listing-box' >
+                                        <div class='listing-box-thumb'>
+                                            <span class='price-list'>${response.price}</span>
+                                            <img src='${response.picture}' alt='noneeee' />
+                                            <div class='listing-box-title'>
+                                                <h3><a href='#' title=''>Coffee Parade</a></h3>
+                                                <span>Los Angeles /  Sillicon Valley </span>
+                                                <span>size ${response.size}</span>
+                                            </div>
+                                        </div>
+                                        <div class='listing-rate-share'>
+                                            <div class='rated-list'>
+                                                <b class='la la-star'></b>
+                                                <b class='la la-star'></b>
+                                                <b class='la la-star'></b>
+                                                <b class='la la-star-o'></b>
+                                                <b class='la la-star-o'></b>
+                                                <span>(13)</span>
+                                            </div>
+                                            <span><i class='la la-share-alt'></i></span>
+                                            <a href='#' title=""><i class='la la-heart-o'></i></a>
+                                        </div>
+                                                </div >
+                                            </div >`
                     }
                     else {
                         alert("Something went wrong");
@@ -332,16 +329,32 @@
                 }
             });
         }
+        function changeCatgory() {
+            let sizesForGirls = ["2", "4", "6", "8", "10", "12", "14", "16", "18", "20", "22"];
+            let sizesForWomen = ["34", "36", "38", "40", "42", "44", "46", "48", "50", "52", "54"];
+            let sizesForBabies = ["3 חד'", "6 חד'", "9 חד'", "12 חד'", "18 חד'", "24 חד'", "30 חד'", "36 חד'"];
+            let catgory = document.getElementById("id_catgory").value;
+            let listOfSizes;
+            if (catgory == 1)
+                listOfSizes = sizesForGirls;
+            else if (catgory == 4)
+                listOfSizes = sizesForBabies;
+            else listOfSizes = sizesForWomen;
 
+            document.getElementById("sizes").innerHTML = "";
+            for (let size of listOfSizes) {
+                document.getElementById("sizes").innerHTML += `<input type="checkbox"/>${size}`
+            }
+        }
     </script>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="">
     <meta name="keywords" content="">
     <meta name="author" content="creativelayers">
-    
+
     <title>Prolist - Directory Listing HTML Template</title>
-   
+
     <!-- Styles -->
     <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
     <!-- Bootstrap -->
@@ -353,11 +366,11 @@
     <!-- Responsive -->
     <link href="~/Content/colors/colors.css" rel="stylesheet" />
     <!-- color -->
-    
+
     <link rel="shortcut icon" type="image/png" href="~/images/favicon.ico" />
 </head>
 <body dir="rtl">
-
+   
     @*<div class="page-loading">
             <div class="loadery"></div>
         </div>*@
@@ -697,17 +710,18 @@
                                     <div class="side-search-form">
                                         @using (Html.BeginForm())
                                         {
-                                            
+
                                             <div class="row">
                                                 @*<div class="col-md-12">
                                                         <input type="text" class="input-style" placeholder="הכנס מילת מפתח" />
                                                     </div>*@
                                                 <div class="col-md-12">
-                                                    @Html.DropDownList("id_catgory", null, htmlAttributes: new { @class = "chosen-select", @tabindex = "2", @name = "id_catgory" ,@id= "id_catgory" })
-
+                                                    @Html.DropDownList("id_catgory", null, htmlAttributes: new { @class = "chosen-select", @tabindex = "2", @name = "id_catgory", @id = "id_catgory", @onchange = "changeCatgory()" })
                                                 </div>
                                                 <div class="col-md-12">
                                                     @Html.DropDownList("id_season", null, htmlAttributes: new { @class = "chosen-select", @tabindex = "2", @name = "id_season", @id = "id_season" })
+                                                </div>
+                                                <div class="col-md-12" id="sizes">
                                                 </div>
                                                 <div class="col-md-12">
                                                     <div class="selecteurprix">
