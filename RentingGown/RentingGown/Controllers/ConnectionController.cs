@@ -10,17 +10,18 @@ using System.Net;
 using System.IO;
 using System.Web.Helpers;
 using System.Web.SessionState;
-using System.Web.Script.Serialization;
-using Newtonsoft.Json;
-
 
 namespace RentingGown.Controllers
 {
-    public class Details
+    public class SearchDetails
     {
-        public string id_category { get; set; }
-        public string id_season { get; set; }
-        public string price { get; set; }
+        public string stringSizes { get; set; }
+        public string is_long { get; set; }
+        public string is_light { get; set; }
+        public int? color { get; set; }
+        public int? id_catgory { get; set; }
+        public int? id_season { get; set; }
+        public int? price { get; set; }
 
     }
     public class ConnectionController : Controller
@@ -30,7 +31,6 @@ namespace RentingGown.Controllers
 
         public ActionResult AddGown(int? error)
         {
-
             ViewBag.id_catgory = new SelectList(db.Catgories, "id_catgory", "catgory");
             ViewBag.id_renter = new SelectList(db.Renters, "id_renter", "fname");
             ViewBag.id_season = new SelectList(db.Seasons, "id_season", "season");
@@ -232,7 +232,6 @@ namespace RentingGown.Controllers
 
                 if (q != null)
                 {
-
                     error2 = 1;
                 }
                 if (q1 != null)
@@ -247,221 +246,197 @@ namespace RentingGown.Controllers
             ViewBag.id_area = new SelectList(db.Areas, "id_area", "area", renters.id_area);
             return RedirectToAction("AddGown", "Connection");
         }
-        public ActionResult Search()
+        
+
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        //public ActionResult Search(int? id_gown, int? id_catgory, int? id_season, int? color, int? min_price, int? max_price, string is_long, int? num_of_dress, int? num, string arr, DateTime? date)
+        //{
+
+        //    if (ModelState.IsValid)
+        //    {
+        //        List<Gowns> RealCurrentGowns = new List<Gowns>();
+        //        string[] arraysizes;
+        //        List<Gowns> CurrentGowns = db.Gowns.Where(p => p.color == color &&
+        //         (id_gown != null ? p.id_gown == id_gown : p.id_gown != 0) &&
+        //         id_catgory == p.id_catgory &&
+        //         id_season == p.id_season &&
+        //         (min_price != null ? p.price >= min_price : p.price != 0) &&
+        //         (max_price != null ? p.price <= max_price : p.price != 0) &&
+        //         (is_long == "ארוך" ? p.is_long == true : p.is_long == false)).ToList();
+        //        List<Gowns> myList = new List<Gowns>();
+        //        foreach (Gowns item in CurrentGowns)
+        //        {
+        //            if (db.Tenants_sets.Where(o => o.date == date && o.id_gown == item.id_gown).Count() == 0)
+        //                myList.Add(item);
+
+        //        }
+        //        CurrentGowns = myList;
+        //        List<Gowns> sets = new List<Gowns>();
+        //        if (num_of_dress > 1)
+        //        {
+        //            foreach (Gowns gown in CurrentGowns)
+        //            {
+
+        //                sets.Clear();
+        //                arraysizes = arr.Split(' ').ToArray();
+
+        //                foreach (string size in arraysizes)
+        //                {
+        //                    if (size != "")
+        //                    {
+        //                        var q = CurrentGowns.FirstOrDefault(u => u.id_set == gown.id_set && u.size == int.Parse(size));
+        //                        if (q != null)
+        //                            sets.Add(q);
+        //                    }
+        //                }
+
+        //                if (gown.Sets.num_of_set >= num_of_dress)
+        //                {
+
+
+
+        //                    if (sets.Count == num_of_dress)
+        //                    {
+        //                        foreach (Gowns item in sets)
+        //                        {
+        //                            var q2 = RealCurrentGowns.FirstOrDefault(p => p.id_gown == item.id_gown);
+        //                            if (q2 == null)
+        //                                RealCurrentGowns.Add(item);
+        //                        }
+        //                    }
+        //                }
+
+        //            }
+        //        }
+        //        else
+        //        {
+        //            arraysizes = arr.Split(' ').ToArray();
+        //            foreach (string size in arraysizes)
+        //            {
+
+        //                if (size != "")
+        //                {
+        //                    foreach (Gowns gown in CurrentGowns)
+        //                    {
+        //                        var q = CurrentGowns.FirstOrDefault(u => u.size == int.Parse(size) && u.id_gown == gown.id_gown);
+
+        //                        if (q != null)
+        //                        {
+        //                            var q2 = RealCurrentGowns.FirstOrDefault(p => p.id_gown == gown.id_gown);
+        //                            if (q2 == null)
+        //                                RealCurrentGowns.Add(gown);
+        //                        }
+
+        //                    }
+        //                }
+        //            }
+        //        }
+        //        if (Session["RequstedDate"] == null)
+        //            Session["RequstedDate"] = new DateTime();
+        //        Session["RequstedDate"] = date;
+        //        if (Session["RealCurrentGowns"] == null)
+        //        { Session["RealCurrentGowns"] = new List<Gowns>(); }
+        //        Session["RealCurrentGowns"] =RealCurrentGowns;
+        //        return View("ShowGowns", RealCurrentGowns);
+        //    }
+
+        //    return View();
+        //}
+        public ActionResult ShowSet(int? idSet)
         {
-            ViewBag.id_catgory = new SelectList(db.Catgories, "id_catgory", "catgory");
-            ViewBag.id_renter = new SelectList(db.Renters, "id_renter", "fname");
-            ViewBag.id_season = new SelectList(db.Seasons, "id_season", "season");
-            ViewBag.id_season = new SelectList(db.Seasons, "id_season", "season");
-            ViewBag.id_set = new SelectList(db.Sets, "id_set", "id_set");
-            ViewBag.color = new SelectList(db.Colors, "id_color", "color");
-            ViewBag.src = "";
-            return View();
+            if (idSet == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Sets set = db.Sets.FirstOrDefault(p => p.id_set == idSet);
+
+
+            return PartialView(set);
         }
-        [HttpPost]
-     
-        public JsonResult MainSearch(Details SerachDetails)
+
+        public ActionResult AddToTheBasket(int? id)
         {
-            int price = int.Parse(SerachDetails.price);
-            int id_category = int.Parse(SerachDetails.id_category);
-            int id_season = int.Parse(SerachDetails.id_season);
-            List<Gowns> MainSearchResult = db.Gowns.Where(p => p.id_catgory ==id_category && p.id_season == id_season && p.price == price).ToList();
-             
-            string json = JsonConvert.SerializeObject(MainSearchResult);
-            //string sJSONResponse = Newtonsoft.Json.JsonConvert.SerializeObject(MainSearchResult);
-            return Json(json, JsonRequestBehavior.AllowGet);
-        }  
-            
-   
-    [HttpPost]
-    [ValidateAntiForgeryToken]
-    //public ActionResult Search(int? id_gown, int? id_catgory, int? id_season, int? color, int? min_price, int? max_price, string is_long, int? num_of_dress, int? num, string arr, DateTime? date)
-    //{
+            List<Gowns> gowns = new List<Gowns>();
+            Gowns gown = db.Gowns.FirstOrDefault(p => p.id_gown == id);
 
-    //    if (ModelState.IsValid)
-    //    {
-    //        List<Gowns> RealCurrentGowns = new List<Gowns>();
-    //        string[] arraysizes;
-    //        List<Gowns> CurrentGowns = db.Gowns.Where(p => p.color == color &&
-    //         (id_gown != null ? p.id_gown == id_gown : p.id_gown != 0) &&
-    //         id_catgory == p.id_catgory &&
-    //         id_season == p.id_season &&
-    //         (min_price != null ? p.price >= min_price : p.price != 0) &&
-    //         (max_price != null ? p.price <= max_price : p.price != 0) &&
-    //         (is_long == "ארוך" ? p.is_long == true : p.is_long == false)).ToList();
-    //        List<Gowns> myList = new List<Gowns>();
-    //        foreach (Gowns item in CurrentGowns)
-    //        {
-    //            if (db.Tenants_sets.Where(o => o.date == date && o.id_gown == item.id_gown).Count() == 0)
-    //                myList.Add(item);
-
-    //        }
-    //        CurrentGowns = myList;
-    //        List<Gowns> sets = new List<Gowns>();
-    //        if (num_of_dress > 1)
-    //        {
-    //            foreach (Gowns gown in CurrentGowns)
-    //            {
-
-    //                sets.Clear();
-    //                arraysizes = arr.Split(' ').ToArray();
-
-    //                foreach (string size in arraysizes)
-    //                {
-    //                    if (size != "")
-    //                    {
-    //                        var q = CurrentGowns.FirstOrDefault(u => u.id_set == gown.id_set && u.size == int.Parse(size));
-    //                        if (q != null)
-    //                            sets.Add(q);
-    //                    }
-    //                }
-
-    //                if (gown.Sets.num_of_set >= num_of_dress)
-    //                {
-
-
-
-    //                    if (sets.Count == num_of_dress)
-    //                    {
-    //                        foreach (Gowns item in sets)
-    //                        {
-    //                            var q2 = RealCurrentGowns.FirstOrDefault(p => p.id_gown == item.id_gown);
-    //                            if (q2 == null)
-    //                                RealCurrentGowns.Add(item);
-    //                        }
-    //                    }
-    //                }
-
-    //            }
-    //        }
-    //        else
-    //        {
-    //            arraysizes = arr.Split(' ').ToArray();
-    //            foreach (string size in arraysizes)
-    //            {
-
-    //                if (size != "")
-    //                {
-    //                    foreach (Gowns gown in CurrentGowns)
-    //                    {
-    //                        var q = CurrentGowns.FirstOrDefault(u => u.size == int.Parse(size) && u.id_gown == gown.id_gown);
-
-    //                        if (q != null)
-    //                        {
-    //                            var q2 = RealCurrentGowns.FirstOrDefault(p => p.id_gown == gown.id_gown);
-    //                            if (q2 == null)
-    //                                RealCurrentGowns.Add(gown);
-    //                        }
-
-    //                    }
-    //                }
-    //            }
-    //        }
-    //        if (Session["RequstedDate"] == null)
-    //            Session["RequstedDate"] = new DateTime();
-    //        Session["RequstedDate"] = date;
-    //        if (Session["RealCurrentGowns"] == null)
-    //        { Session["RealCurrentGowns"] = new List<Gowns>(); }
-    //        Session["RealCurrentGowns"] =RealCurrentGowns;
-    //        return View("ShowGowns", RealCurrentGowns);
-    //    }
-
-    //    return View();
-    //}
-    public ActionResult ShowSet(int? idSet)
-    {
-        if (idSet == null)
-        {
-            return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-        }
-        Sets set = db.Sets.FirstOrDefault(p => p.id_set == idSet);
-
-
-        return PartialView(set);
-    }
-
-    public ActionResult AddToTheBasket(int? id)
-    {
-        List<Gowns> gowns = new List<Gowns>();
-        Gowns gown = db.Gowns.FirstOrDefault(p => p.id_gown == id);
-
-        if (Session["listOfGowns"] == null)
-        {
-            Session["listOfGowns"] = new List<Gowns>();
-            (Session["listOfGowns"] as List<Gowns>).Add(gown);
-        }
-        else
-        {
-            var q = (Session["listOfGowns"] as List<Gowns>).FirstOrDefault(p => p.id_gown == gown.id_gown);
-            if (q == null)
+            if (Session["listOfGowns"] == null)
+            {
+                Session["listOfGowns"] = new List<Gowns>();
                 (Session["listOfGowns"] as List<Gowns>).Add(gown);
+            }
+            else
+            {
+                var q = (Session["listOfGowns"] as List<Gowns>).FirstOrDefault(p => p.id_gown == gown.id_gown);
+                if (q == null)
+                    (Session["listOfGowns"] as List<Gowns>).Add(gown);
+            }
+            return RedirectToAction("ShowGowns", gowns);
         }
-        return RedirectToAction("ShowGowns", gowns);
-    }
-    public ActionResult ShowDetails()
-    {
-        List<Renters> renters = new List<Renters>();
-        foreach (Gowns gown in (Session["listOfGowns"] as List<Gowns>))
+        public ActionResult ShowDetails()
         {
-            renters.Add(db.Renters.FirstOrDefault(p => p.id_renter == gown.id_renter));
-        }
-        if (Session["listRenters"] == null)
-            Session["listRenters"] = new List<Renters>();
-        (Session["listRenters"] as List<Renters>).AddRange(renters);
-        return View();
-    }
-    public ActionResult AddTenant()
-    {
-        ViewBag.id_area = new SelectList(db.Areas, "id_area", "area");
-        if (Session["listOfGowns"] == null)
-            return RedirectToAction("Index", "Home");
-        return View();
-    }
-
-
-    [HttpPost]
-    [ValidateAntiForgeryToken]
-    public ActionResult AddTenant([Bind(Include = "id_tenant,fname,lname,phone,cellphone,address,id_area")] Tenants tenants)
-    {
-        var q = db.Tenants.FirstOrDefault(p => p.fname == tenants.fname && p.lname == tenants.lname && p.phone == tenants.phone && p.cellphone == tenants.cellphone && p.address == tenants.address && p.id_area == tenants.id_area);
-        int id = 0;
-        foreach (Tenants tenant in db.Tenants)
-        {
-            id = tenant.id_tenant;
-        }
-
-        if (q == null)
-        {
-
-            tenants.id_tenant = id + 1;
-            q = tenants;
-            db.Tenants.Add(tenants);
-        }
-
-        if (ModelState.IsValid)
-        {
-
-
-
+            List<Renters> renters = new List<Renters>();
             foreach (Gowns gown in (Session["listOfGowns"] as List<Gowns>))
             {
-                Tenants_sets NewTenant = new Tenants_sets();
-                NewTenant.id_gown = gown.id_gown;
-                NewTenant.id_tenant = q.id_tenant;
-                NewTenant.payment = gown.price;
-
-                NewTenant.date = (DateTime)Session["RequstedDate"];
-                NewTenant.is_payed = false;
-                NewTenant.is_returned = false;
-                db.Tenants_sets.Add(NewTenant);
+                renters.Add(db.Renters.FirstOrDefault(p => p.id_renter == gown.id_renter));
             }
-            db.SaveChanges();
-            return RedirectToAction("ShowDetails", "Connection");
+            if (Session["listRenters"] == null)
+                Session["listRenters"] = new List<Renters>();
+            (Session["listRenters"] as List<Renters>).AddRange(renters);
+            return View();
+        }
+        public ActionResult AddTenant()
+        {
+            ViewBag.id_area = new SelectList(db.Areas, "id_area", "area");
+            if (Session["listOfGowns"] == null)
+                return RedirectToAction("Index", "Home");
+            return View();
         }
 
 
-        ViewBag.id_area = new SelectList(db.Areas, "id_area", "area", tenants.id_area);
-        return View(tenants);
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult AddTenant([Bind(Include = "id_tenant,fname,lname,phone,cellphone,address,id_area")] Tenants tenants)
+        {
+            var q = db.Tenants.FirstOrDefault(p => p.fname == tenants.fname && p.lname == tenants.lname && p.phone == tenants.phone && p.cellphone == tenants.cellphone && p.address == tenants.address && p.id_area == tenants.id_area);
+            int id = 0;
+            foreach (Tenants tenant in db.Tenants)
+            {
+                id = tenant.id_tenant;
+            }
+
+            if (q == null)
+            {
+
+                tenants.id_tenant = id + 1;
+                q = tenants;
+                db.Tenants.Add(tenants);
+            }
+
+            if (ModelState.IsValid)
+            {
+
+
+
+                //foreach (Gowns gown in (Session["listOfGowns"] as List<Gowns>))
+                //{
+                //    Tenants_sets NewTenant = new Tenants_sets();
+                //    NewTenant.id_gown = gown.id_gown;
+                //    NewTenant.id_tenant = q.id_tenant;
+                //    NewTenant.payment = gown.price;
+
+                //    NewTenant.date = (DateTime)Session["RequstedDate"];
+                //    NewTenant.is_payed = false;
+                //    NewTenant.is_returned = false;
+                //    db.Tenants_sets.Add(NewTenant);
+                //}
+                db.SaveChanges();
+                return RedirectToAction("ShowDetails", "Connection");
+            }
+
+
+            ViewBag.id_area = new SelectList(db.Areas, "id_area", "area", tenants.id_area);
+            return View(tenants);
+        }
     }
-}
 }

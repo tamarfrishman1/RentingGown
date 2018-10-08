@@ -88,15 +88,36 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <EntitySetMapping Name="Tenants_sets">
-      <EntityTypeMapping TypeName="RentingGownModel.Tenants_sets">
-        <MappingFragment StoreEntitySet="Tenants-sets">
-          <ScalarProperty Name="id_tenant" ColumnName="id_tenant" />
-          <ScalarProperty Name="id_gown" ColumnName="id_gown" />
-          <ScalarProperty Name="payment" ColumnName="payment" />
-          <ScalarProperty Name="date" ColumnName="date" />
-          <ScalarProperty Name="is_payed" ColumnName="is_payed" />
+    <EntitySetMapping Name="Status">
+      <EntityTypeMapping TypeName="RentingGownModel.Status">
+        <MappingFragment StoreEntitySet="Status">
+          <ScalarProperty Name="statusname" ColumnName="statusname" />
+          <ScalarProperty Name="Idstatus" ColumnName="Idstatus" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Users">
+      <EntityTypeMapping TypeName="RentingGownModel.Users">
+        <MappingFragment StoreEntitySet="Users">
+          <ScalarProperty Name="userimage" ColumnName="userimage" />
+          <ScalarProperty Name="userid" ColumnName="userid" />
+          <ScalarProperty Name="password" ColumnName="password" />
+          <ScalarProperty Name="username" ColumnName="username" />
+          <ScalarProperty Name="status" ColumnName="status" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Rents">
+      <EntityTypeMapping TypeName="RentingGownModel.Rents">
+        <MappingFragment StoreEntitySet="Rents">
           <ScalarProperty Name="is_returned" ColumnName="is_returned" />
+          <ScalarProperty Name="is_payed" ColumnName="is_payed" />
+          <ScalarProperty Name="date" ColumnName="date" />
+          <ScalarProperty Name="payment" ColumnName="payment" />
+          <ScalarProperty Name="id_gown" ColumnName="id_gown" />
+          <ScalarProperty Name="id_tenant" ColumnName="id_tenant" />
+          <ScalarProperty Name="id" ColumnName="id" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

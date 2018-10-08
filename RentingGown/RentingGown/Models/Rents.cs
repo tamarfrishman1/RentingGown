@@ -12,8 +12,9 @@ namespace RentingGown.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class Tenants_sets
+    public partial class Rents
     {
+        public int id { get; set; }
         public int id_tenant { get; set; }
         public int id_gown { get; set; }
         public Nullable<int> payment { get; set; }

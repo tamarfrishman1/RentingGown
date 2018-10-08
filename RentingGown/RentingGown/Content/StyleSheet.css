@@ -10,8 +10,8 @@ body {
     font-family: Calibri Light;
     font-size: 17px;
 }
- .navbar-inverse  {
-    background-color: rgb(82, 14, 56) ;
+.navbar-inverse  {
+    background-color: black ;
 }
 .btn-primary {
     background-color: rgb(82, 14, 56);
