@@ -578,6 +578,7 @@ C:\Users\User\Documents\GitHub\RentingGown\RentingGown\RentingGown\obj\Debug\Ren
 C:\Users\User\Documents\GitHub\RentingGown\RentingGown\RentingGown\bin\Json.NET.Web.dll
 =======
 >>>>>>> 6038a2c586ddb1393e363a48478d1fe7cca154df
+<<<<<<< HEAD
 F:\RentingGown\RentingGown\bin\ApplicationInsights.config
 F:\RentingGown\RentingGown\bin\roslyn\csc.exe
 F:\RentingGown\RentingGown\bin\roslyn\csc.exe.config
@@ -803,3 +804,5 @@ G:\RentingGown\RentingGown\obj\Debug\RentingGown.csproj.CoreCompileInputs.cache
 G:\RentingGown\RentingGown\obj\Debug\RentingGown.csproj.CopyComplete
 G:\RentingGown\RentingGown\obj\Debug\RentingGown.dll
 G:\RentingGown\RentingGown\obj\Debug\RentingGown.pdb
+=======
+>>>>>>> 681333eab1c8e9f18e4d4957cd410469efcbaff5

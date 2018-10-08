@@ -10,6 +10,9 @@ using System.Net;
 using System.IO;
 using System.Web.Helpers;
 using System.Web.SessionState;
+using System.Web.Script.Serialization;
+using Newtonsoft.Json;
+
 
 namespace RentingGown.Controllers
 {
@@ -345,11 +348,128 @@ namespace RentingGown.Controllers
         //}
         public ActionResult ShowSet(int? idSet)
         {
+<<<<<<< HEAD
             if (idSet == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             Sets set = db.Sets.FirstOrDefault(p => p.id_set == idSet);
+=======
+            int price = int.Parse(SerachDetails.price);
+            int id_category = int.Parse(SerachDetails.id_category);
+            int id_season = int.Parse(SerachDetails.id_season);
+            List<Gowns> MainSearchResult = db.Gowns.Where(p => p.id_catgory ==id_category && p.id_season == id_season && p.price == price).ToList();
+             
+            string json = JsonConvert.SerializeObject(MainSearchResult);
+            //string sJSONResponse = Newtonsoft.Json.JsonConvert.SerializeObject(MainSearchResult);
+            return Json(json, JsonRequestBehavior.AllowGet);
+        }  
+            
+   
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    //public ActionResult Search(int? id_gown, int? id_catgory, int? id_season, int? color, int? min_price, int? max_price, string is_long, int? num_of_dress, int? num, string arr, DateTime? date)
+    //{
+
+    //    if (ModelState.IsValid)
+    //    {
+    //        List<Gowns> RealCurrentGowns = new List<Gowns>();
+    //        string[] arraysizes;
+    //        List<Gowns> CurrentGowns = db.Gowns.Where(p => p.color == color &&
+    //         (id_gown != null ? p.id_gown == id_gown : p.id_gown != 0) &&
+    //         id_catgory == p.id_catgory &&
+    //         id_season == p.id_season &&
+    //         (min_price != null ? p.price >= min_price : p.price != 0) &&
+    //         (max_price != null ? p.price <= max_price : p.price != 0) &&
+    //         (is_long == "ארוך" ? p.is_long == true : p.is_long == false)).ToList();
+    //        List<Gowns> myList = new List<Gowns>();
+    //        foreach (Gowns item in CurrentGowns)
+    //        {
+    //            if (db.Tenants_sets.Where(o => o.date == date && o.id_gown == item.id_gown).Count() == 0)
+    //                myList.Add(item);
+
+    //        }
+    //        CurrentGowns = myList;
+    //        List<Gowns> sets = new List<Gowns>();
+    //        if (num_of_dress > 1)
+    //        {
+    //            foreach (Gowns gown in CurrentGowns)
+    //            {
+
+    //                sets.Clear();
+    //                arraysizes = arr.Split(' ').ToArray();
+
+    //                foreach (string size in arraysizes)
+    //                {
+    //                    if (size != "")
+    //                    {
+    //                        var q = CurrentGowns.FirstOrDefault(u => u.id_set == gown.id_set && u.size == int.Parse(size));
+    //                        if (q != null)
+    //                            sets.Add(q);
+    //                    }
+    //                }
+
+    //                if (gown.Sets.num_of_set >= num_of_dress)
+    //                {
+
+
+
+    //                    if (sets.Count == num_of_dress)
+    //                    {
+    //                        foreach (Gowns item in sets)
+    //                        {
+    //                            var q2 = RealCurrentGowns.FirstOrDefault(p => p.id_gown == item.id_gown);
+    //                            if (q2 == null)
+    //                                RealCurrentGowns.Add(item);
+    //                        }
+    //                    }
+    //                }
+
+    //            }
+    //        }
+    //        else
+    //        {
+    //            arraysizes = arr.Split(' ').ToArray();
+    //            foreach (string size in arraysizes)
+    //            {
+
+    //                if (size != "")
+    //                {
+    //                    foreach (Gowns gown in CurrentGowns)
+    //                    {
+    //                        var q = CurrentGowns.FirstOrDefault(u => u.size == int.Parse(size) && u.id_gown == gown.id_gown);
+
+    //                        if (q != null)
+    //                        {
+    //                            var q2 = RealCurrentGowns.FirstOrDefault(p => p.id_gown == gown.id_gown);
+    //                            if (q2 == null)
+    //                                RealCurrentGowns.Add(gown);
+    //                        }
+
+    //                    }
+    //                }
+    //            }
+    //        }
+    //        if (Session["RequstedDate"] == null)
+    //            Session["RequstedDate"] = new DateTime();
+    //        Session["RequstedDate"] = date;
+    //        if (Session["RealCurrentGowns"] == null)
+    //        { Session["RealCurrentGowns"] = new List<Gowns>(); }
+    //        Session["RealCurrentGowns"] =RealCurrentGowns;
+    //        return View("ShowGowns", RealCurrentGowns);
+    //    }
+
+    //    return View();
+    //}
+    public ActionResult ShowSet(int? idSet)
+    {
+        if (idSet == null)
+        {
+            return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+        }
+        Sets set = db.Sets.FirstOrDefault(p => p.id_set == idSet);
+
+>>>>>>> 681333eab1c8e9f18e4d4957cd410469efcbaff5
 
 
             return PartialView(set);
